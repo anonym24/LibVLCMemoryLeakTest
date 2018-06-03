@@ -22,12 +22,11 @@ import org.videolan.libvlc.MediaPlayer;
 import java.util.ArrayList;
 
 public class JavaActivity extends AppCompatActivity implements IVLCVout.OnNewVideoLayoutListener {
-    private static final String TAG = "JavaActivity";
+    private static final String TAG = "LibVLCMemoryLeakTest";
     private static final String SAMPLE_URL = "http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_640x360.m4v";
 
     private FrameLayout mVideoSurfaceFrame = null;
     private SurfaceView mVideoSurface = null;
-    private SurfaceView mSubtitlesSurface = null;
     private View mVideoView = null;
 
     private Handler mHandler;
@@ -82,12 +81,9 @@ public class JavaActivity extends AppCompatActivity implements IVLCVout.OnNewVid
         final IVLCVout vlcVout = mMediaPlayer.getVLCVout();
         if (mVideoSurface != null) {
             vlcVout.setVideoView(mVideoSurface);
-            if (mSubtitlesSurface != null)
-                vlcVout.setSubtitlesView(mSubtitlesSurface);
         }
         vlcVout.attachViews(this);
 
-        //Media media = new Media(mLibVLC, SAMPLE_URL);
         Media media = new Media(mLibVLC, Uri.parse(SAMPLE_URL));
         mMediaPlayer.setMedia(media);
         media.release();
@@ -123,7 +119,6 @@ public class JavaActivity extends AppCompatActivity implements IVLCVout.OnNewVid
             }
             mMediaPlayer.stop();
             mMediaPlayer.getVLCVout().detachViews();
-            //mMediaPlayer.getMedia().release();
             mMediaPlayer.release();
             mLibVLC.release();
             mMediaPlayer = null;
@@ -176,15 +171,11 @@ public class JavaActivity extends AppCompatActivity implements IVLCVout.OnNewVid
         lp.width  = (int) Math.ceil(dw * mVideoWidth / mVideoVisibleWidth);
         lp.height = (int) Math.ceil(dh * mVideoHeight / mVideoVisibleHeight);
         mVideoView.setLayoutParams(lp);
-        if (mSubtitlesSurface != null)
-            mSubtitlesSurface.setLayoutParams(lp);
         lp = mVideoSurfaceFrame.getLayoutParams();
         lp.width = (int) Math.floor(dw);
         lp.height = (int) Math.floor(dh);
         mVideoSurfaceFrame.setLayoutParams(lp);
         mVideoView.invalidate();
-        if (mSubtitlesSurface != null)
-            mSubtitlesSurface.invalidate();
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
