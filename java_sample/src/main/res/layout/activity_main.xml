@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keepScreenOn="true"
-    android:background="@android:color/background_dark"
-    tools:context=".NativeActivity">
+    android:background="@android:color/background_dark">
 
     <FrameLayout
         android:id="@+id/video_surface_frame"
@@ -25,12 +24,6 @@
             android:layout_height="1dp"
             android:layout="@layout/surface_view"
             android:id="@+id/subtitles_surface_stub" />
-
-        <ViewStub
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout="@layout/texture_view"
-            android:id="@+id/texture_stub" />
 
     </FrameLayout>
 </FrameLayout>
