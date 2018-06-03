@@ -1,0 +1,10 @@
+project.ext {
+    minSdkVersion = 19
+    compileSdkVersion = 27
+    targetSdkVersion = 27
+    buildToolsVersion = '27.0.3'
+    testSupportLibraryVersion = '0.5'
+    supportLibraryVersion = '27.1.1'
+    releaseVersion = '1.0'
+    modulePrefix = ':'
+}

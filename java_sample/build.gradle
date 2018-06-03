@@ -1,0 +1,42 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
+    sourceSets {
+        main {
+            jni.srcDirs = [] // Prevent gradle from building native code with ndk; we have our own Makefile for it.
+            jniLibs.srcDir 'jni/libs' // Where generated .so files are placed
+        }
+    }
+    defaultConfig {
+        applicationId 'org.videolan.java_sample'
+        minSdkVersion 23
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    splits {
+        abi {
+            enable true
+            reset()
+            //include 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a' //select ABIs to build APKs for
+            include 'arm64-v8a' //select ABIs to build APKs for
+            universalApk false //generate an additional APK that contains all the ABIs
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:support-v4:27.1.1'
+    implementation project(':libvlc')
+}
